@@ -11,6 +11,8 @@ To run the program, download RedeployJMF.jar from the Releases section. Then, ru
 
 To run the program on only computers in a specified Smart Group, pass the Smart Group name into the program as the final argument.
 
+By using this program, it is expected that you understand the implications and consequences of redeploying the Jamf Management Framework, and have tested thoroughly in a non-production environment.
+
 ## "Could not find or load main class"
 On certain computer configurations, you may receive this error when trying to run the program. To fix this, you will need to build the program manually. To do so:
 1. Download the **source code**.
