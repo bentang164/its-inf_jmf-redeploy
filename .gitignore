@@ -1,0 +1,42 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+
+# virtual machine crash logs, see 
+http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+### Gradle ###
+# via https://github.com/github/gitignore/blob/master/Gradle.gitignore
+
+.gradle
+**/build/
+!src/**/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# macOS Finder settings
+.DS_Store
+
+
+# IDE-specific config (IDEs can generate from Gradle config)
+.idea
+.classpath
+.project
+.settings/*
+!.settings/org.eclipse.jdt.core.prefs
+.vscode/*
+!.vscode/settings.json
+bin

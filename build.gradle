@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation group: 'com.github.mac-comp127', name: 'kilt-graphics', version: '1.+'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.+'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = 1.17
+targetCompatibility = 1.17
+
+sourceSets.main.java.srcDirs = ['src']
+sourceSets.main.resources.srcDirs = ['res']
+sourceSets.test.java.srcDirs = ['test']
