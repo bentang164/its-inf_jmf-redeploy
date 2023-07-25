@@ -174,7 +174,7 @@ public class RedeployJMF {
         if (jmf.allClients) {
             System.out.println("[info] Querying the Jamf Pro server for information on all devices.");
         } else {
-            System.out.println("[info] Querying the Jamf Pro server for information on devices in the 'Computers that might have the device signature error JC 06202023' Smart Group.");
+            System.out.println("[info] Querying the Jamf Pro server for information on devices in the '" + active_group + "' Smart Group.");
         }
         jmf.executeCommands("curl --user \"" + args[0] + ":" + args[1] + "\" --write-out \"\n" + //
                 "%{http_code}\" --silent --show-error --request 'GET' --header \"Accept: text/xml\" \"" + jamf_url + "/JSSResource/computergroups/name/" + active_group + "\"");
