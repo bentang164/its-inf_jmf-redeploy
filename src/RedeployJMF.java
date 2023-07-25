@@ -24,6 +24,10 @@ public class RedeployJMF {
         commandOutput = commandErrOutput = new StringBuilder();
     }
 
+    /**
+     * Executes the specified command, using the Bash interpreter. After execution, stores the command output.
+     * @param command to execute
+     */
     private void executeCommands(String command) {
         Runtime runtime = Runtime.getRuntime();
         String[] commands = {"/bin/bash", "-c", command};
@@ -39,6 +43,11 @@ public class RedeployJMF {
         }
     }
 
+    /**
+     * Stores the input and error stream output of the executed command into a string 'commandOutput'. Each time this occurs, commandOutput is cleared. 
+     * @param inputStream of the executed command
+     * @param errorStream of the executed command
+     */
     private void storeOutput(BufferedReader inputStream, BufferedReader errorStream) {
         commandOutput.setLength(0);
 
@@ -57,6 +66,10 @@ public class RedeployJMF {
         }
     }
 
+    /**
+     * Obtains only the bearer token from the Jamf 'v1/auth/token' API call. All other text is stripped.
+     * @param args passed into the program from the initial call.
+     */
     private void getBearerToken(String[] args) {
         executeCommands("curl -s -u" + args[0] + ":" + args[1] + " " + jamf_url + "/api/v1/auth/token -X POST");
 
@@ -77,6 +90,9 @@ public class RedeployJMF {
         System.out.println("[info] API bearer token successfully generated.");
     }
 
+    /**
+     * Invalidates the active bearer token and returns a message based on the HTTP status code received from the Jamf 'v1/auth/invalidate-token' API call. 
+     */
     private void invalidateToken() {
         System.out.println("[into] Attempting to invalidate bearer token.");
         executeCommands("curl -w \"%{http_code}\" -H \"Authorization: Bearer " + api_token + "\" " + jamf_url + "/api/v1/auth/invalidate-token -X POST -s -o /dev/null");
@@ -92,8 +108,13 @@ public class RedeployJMF {
         }
     }
 
-    public int getHTTPstatus(boolean simple) {
-        if (simple) {
+    /**
+     * Gets the HTTP status code from the execution of the Jamf 'v1/jamf-management-framework/redeploy' API call and '/JSSResource/computergroups/name/' request.
+     * @param redeploy, whether the output is from the redeploy API call or the simpler name query.
+     * @return the HTTP status code from the request. 
+     */
+    public int getHTTPstatus(boolean redeploy) {
+        if (redeploy) {
             httpStatus = Integer.parseInt(commandOutput.substring(commandOutput.length() - 4, commandOutput.length() - 1));
         } else {
             if (commandOutput.toString().contains("httpStatus")) {
@@ -105,9 +126,15 @@ public class RedeployJMF {
                 return 202;
             }
         }
+
         return httpStatus;
     }
 
+    /**
+     * Applies the redeploy call to the computer with the specified Jamf Pro Computer ID, and prints out messages depending on the returned HTTP status code.
+     * If the command fails three or more times in a row, the user will be prompted to press return on each consecutive failure. If the command succeeds, the counter will be reset and the user will no longer be prompted until the threshold is again reached. 
+     * @param jamfCompID of the computer to apply the command on.
+     */
     private void applyCommand(int jamfCompID) {
         int failCounter = 0;
 
@@ -141,6 +168,9 @@ public class RedeployJMF {
         }
     }
 
+    /**
+     * Prompts the user to press return to continue. 
+     */
     private void verifyContinue() {
         System.out.print("\n[error] The redeploy command has failed three or more times in a row. Press return to attempt to continue, or pass ^C to terminate.");
 
@@ -153,6 +183,10 @@ public class RedeployJMF {
         System.out.println();
     }
 
+    /**
+     * Validates the arguments passed into the program. If exactly four arguments are passed in, the program assumes that fourth argument is the name of a valid Smart Group. If more than four arguments are passed in, they are ignored.
+     * @param args
+     */
     private void validateArgs(String[] args) {
         if (args.length < 3) {
             System.out.println("[error] Arguments missing, the following must be passed in: [api_account_username] [api_account_password] [jamf_url].");
@@ -165,6 +199,10 @@ public class RedeployJMF {
         }
     }
 
+    /**
+     * Primary logic for the program.
+     * @param args [api_account_username] [api_account_password] [jamf_url]
+     */
     public static void main(String[] args) {
         RedeployJMF jmf = new RedeployJMF();
 
@@ -176,6 +214,7 @@ public class RedeployJMF {
         } else {
             System.out.println("[info] Querying the Jamf Pro server for information on devices in the '" + active_group + "' Smart Group.");
         }
+
         jmf.executeCommands("curl --user \"" + args[0] + ":" + args[1] + "\" --write-out \"\n" + //
                 "%{http_code}\" --silent --show-error --request 'GET' --header \"Accept: text/xml\" \"" + jamf_url + "/JSSResource/computergroups/name/" + active_group + "\"");
 
@@ -195,7 +234,7 @@ public class RedeployJMF {
         if (jmf.allClients) {
             System.out.print("[info] WARNING: You are about to redeploy the Jamf Management Framework to all " + ParseXML.computers.size() + " managed clients in Jamf Pro. THIS WILL TAKE A LONG TIME. DO NOT INTERRUPT. Continue? [confirm]");
         } else {
-            System.out.print("[info] Identified " + ParseXML.computers.size() + " devices in the Smart Group to redeploy the Jamf Management Framework to. Continue? [confirm]");
+            System.out.print("[info] Identified " + ParseXML.computers.size() + " devices in the '" + active_group + "' Smart Group to redeploy the Jamf Management Framework to. Continue? [confirm]");
         }
 
         try {
