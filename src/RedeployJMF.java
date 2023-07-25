@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
  * Uses the Jamf API to remotely redeploy the Jamf Management Framework to a subset of computers, or all managed clients.
  * 
  * @author Ben Tang
- * @since 07/21/2023
- * @version 2.0.3
+ * @since 07/25/2023
+ * @version 2.0.5
  */
 public class RedeployJMF {
     private static final String ALL_MANAGED_CLIENTS = "All%20Managed%20Clients";
