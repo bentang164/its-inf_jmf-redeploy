@@ -83,8 +83,6 @@ public class RedeployJMF {
         int startIndex = api_token_raw.indexOf("\"token : \"") + 16;
         int endIndex = api_token_raw.indexOf("\"expires\"") - 5;
 
-        System.exit(0);
-
         api_token = api_token_raw.substring(startIndex, endIndex);
 
         System.out.println("[info] API bearer token successfully generated.");
