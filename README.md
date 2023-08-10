@@ -11,6 +11,13 @@ To run the program, download RedeployJMF.jar from the Releases section. Then, ru
 
 To run the program on only computers in a specified Smart Group, pass the Smart Group name into the program as the final argument.
 
+The credentials passed in must be for an account that is enabled in Jamf, and, minimally, has the following permission set:
+1. Jamf Pro Server Objects > Computers (Read)
+2. Jamf Pro Server Objects > Smart Computer Groups (Read)
+3. Jamf Pro Server Settings > Check-In (Read)
+4. Jamf Pro Server Settings > Computer Check-in Setting (Read)
+5. Jamf Pro Server Actions > Send Computer Remote Command to Install Package
+
 By using this program, it is expected that you understand the implications and consequences of redeploying the Jamf Management Framework, and have tested thoroughly in a non-production environment.
 
 ## "Could not find or load main class"
