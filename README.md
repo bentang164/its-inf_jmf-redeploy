@@ -7,9 +7,9 @@ This program is compatible with macOS (10.15 or higher) devices that have versio
 
 To run the program, download RedeployJMF.jar from the Releases section. Then, run the following in Terminal:
 1. ```cd path/to/folder/with/RedeployJMF.jar```
-2. ```java -jar RedeployJMF.jar [username] [password] [jamf_url]```
+2. ```java -jar RedeployJMF.jar [username] [password] [jamf_url] [Optional: Smart Group Name]```
 
-To run the program on only computers in a specified Smart Group, pass the Smart Group name into the program as the final argument.
+To run the program on only computers in a specified Smart Group, pass the Smart Group name into the program as the final argument. To run on All Managed Clients, simply omit that argument.
 
 The credentials passed in must be for an account that is enabled in Jamf, and, minimally, has the following permission set:
 1. Jamf Pro Server Objects > Computers (Read)
