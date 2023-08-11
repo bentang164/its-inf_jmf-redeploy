@@ -192,13 +192,25 @@ public class RedeployJMF {
         } else if (args.length == 4) {
             allClients = false;
             jamf_url = args[2];
+            fixURL(jamf_url);
             active_group_friendly = args[3];
             active_group = args[3].replace(" ", "%20");
         } else {
-            System.out.println("[warn] Ignoring extra argument(s). The program will run on All Managed Clients.");
+            System.out.println("[warn] Ignoring extra argument(s). The program will run on All Managed Clients after confirmation. " +
+            "If you passed in the name of a specific Smart Group, it must be enclosed in double quotes.");
             jamf_url = args[2];
             active_group_friendly = "All Managed Clients";
             active_group = ALL_MANAGED_CLIENTS;
+        }
+    }
+
+    /**
+     * Verifies that the Jamf URL the user inputted starts with "https://", and corrects this if not.
+     * @param userProvidedURL
+     */
+    private void fixURL(String userProvidedURL) {
+        if (!userProvidedURL.contains("https://")) {
+            RedeployJMF.jamf_url = "https://" + RedeployJMF.jamf_url;
         }
     }
 
@@ -215,7 +227,7 @@ public class RedeployJMF {
         if (jmf.allClients) {
             System.out.println("[info] Querying the Jamf Pro server for information on all devices.");
         } else {
-            System.out.println("[info] Querying the Jamf Pro server for information on devices in the '" + active_group + "' Smart Group.");
+            System.out.println("[info] Querying the Jamf Pro server for information on devices in the '" + active_group_friendly + "' Smart Group.");
         }
 
         jmf.executeCommands("curl --user \"" + args[0] + ":" + args[1] + "\" --write-out \"\n" + //
