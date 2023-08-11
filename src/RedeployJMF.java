@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 public class RedeployJMF {
     private static final String ALL_MANAGED_CLIENTS = "All%20Managed%20Clients";
     private static String jamf_url;
-    private static String active_group;
+    private static String active_group, active_group_friendly;
     private StringBuilder commandOutput, commandErrOutput;
     private String api_token, api_token_raw;
     private boolean allClients;
@@ -190,16 +190,21 @@ public class RedeployJMF {
             System.out.println("[error] Arguments missing, the following must be passed in: [api_account_username] [api_account_password] [jamf_url].");
             System.exit(0);
         } else if (args.length == 4) {
+            allClients = false;
+            jamf_url = args[2];
+            active_group_friendly = args[3];
             active_group = args[3].replace(" ", "%20");
         } else {
             System.out.println("[warn] Ignoring extra argument(s). The program will run on All Managed Clients.");
+            jamf_url = args[2];
+            active_group_friendly = "All Managed Clients";
             active_group = ALL_MANAGED_CLIENTS;
         }
     }
 
     /**
      * Primary logic for the program.
-     * @param args [api_account_username] [api_account_password] [jamf_url]
+     * @param args [api_account_username] [api_account_password] [jamf_url] [optional_smart_group_name]
      */
     public static void main(String[] args) {
         RedeployJMF jmf = new RedeployJMF();
@@ -232,7 +237,7 @@ public class RedeployJMF {
         if (jmf.allClients) {
             System.out.print("[info] WARNING: You are about to redeploy the Jamf Management Framework to all " + ParseXML.computers.size() + " managed clients in Jamf Pro. THIS WILL TAKE A LONG TIME. DO NOT INTERRUPT. Continue? [confirm]");
         } else {
-            System.out.print("[info] Identified " + ParseXML.computers.size() + " devices in the '" + active_group + "' Smart Group to redeploy the Jamf Management Framework to. Continue? [confirm]");
+            System.out.print("[info] Identified " + ParseXML.computers.size() + " devices in the '" + active_group_friendly + "' Smart Group to redeploy the Jamf Management Framework to. Continue? [confirm]");
         }
 
         try {
