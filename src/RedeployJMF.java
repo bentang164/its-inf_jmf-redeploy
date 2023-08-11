@@ -195,10 +195,17 @@ public class RedeployJMF {
             fixURL(jamf_url);
             active_group_friendly = args[3];
             active_group = args[3].replace(" ", "%20");
-        } else {
+        } else if (args.length != 3) {
             System.out.println("[warn] Ignoring extra argument(s). The program will run on All Managed Clients after confirmation. " +
             "If you passed in the name of a specific Smart Group, it must be enclosed in double quotes.");
             jamf_url = args[2];
+            fixURL(jamf_url);
+            active_group_friendly = "All Managed Clients";
+            active_group = ALL_MANAGED_CLIENTS;
+        } else {
+            allClients = true;
+            jamf_url = args[2];
+            fixURL(jamf_url);
             active_group_friendly = "All Managed Clients";
             active_group = ALL_MANAGED_CLIENTS;
         }
