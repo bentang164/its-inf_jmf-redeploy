@@ -3,7 +3,7 @@
 This program will redeploy the Jamf Management Framework to all computers in a specified Smart Group.
 
 ## Installation and Use
-This program is compatible with macOS (10.15 or higher) devices that have version 17+ of the OpenJDK Runtime Environment installed. It is **NOT** compatible with non-macOS devices. This can be downloaded and installed from [here](https://adoptium.net).
+This program is compatible with macOS (10.15 or higher) devices that have [version 17+ of the OpenJDK Runtime Environment](https://adoptium.net) installed. This program is **NOT** compatible with non-macOS devices. 
 
 To run the program, download RedeployJMF.jar from the Releases section. Then, run the following in Terminal:
 1. ```cd path/to/folder/with/RedeployJMF.jar```
