@@ -2,6 +2,13 @@
 
 This program will redeploy the Jamf Management Framework to all computers in a specified Smart Group.
 
+## Heads Up!
+It's recommended that you run this program in a development environment. During my testing, I found that redeploying the Jamf Management Framework had unintended side effects on devices. For example, devices set up as a lab computer, would also get pushed the 'staff/faculty' receipt, and begin setting itself up as a staff computer. This naturally caused problems with lab functionality. 
+
+The side effects will differ based on how your environment has been configured. 
+
+For more information, please review the **Disclaimer** section at the bottom of this README. 
+
 ## Installation and Use
 This program is compatible with macOS (10.15 or higher) devices that have [version 17+ of the OpenJDK Runtime Environment](https://adoptium.net) installed. This program is **NOT** compatible with non-macOS devices. 
 
